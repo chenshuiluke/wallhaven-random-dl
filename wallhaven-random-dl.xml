@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="wallhaven-random-dl" default="all">
+  
+  
+  <property file="wallhaven-random-dl.properties"/>
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="700m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/*.rbc/**"/>
+    <exclude name="**/*.yarb/**"/>
+    <exclude name="**/*~/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/.hg/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/RCS/**"/>
+    <exclude name="**/SCCS/**"/>
+    <exclude name="**/__pycache__/**"/>
+    <exclude name="**/_svn/**"/>
+    <exclude name="**/rcs/**"/>
+    <exclude name="**/vssver.scc/**"/>
+    <exclude name="**/vssver2.scc/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.war"/>
+    <include name="*.swc"/>
+    <include name="*.apk"/>
+    <include name="*.zip"/>
+    <include name="*.ear"/>
+    <include name="*.egg"/>
+    <include name="*.ane"/>
+    <include name="*.jar"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <exclude name="**/?*.java"/>
+    <exclude name="**/?*.form"/>
+    <exclude name="**/?*.class"/>
+    <exclude name="**/?*.groovy"/>
+    <exclude name="**/?*.scala"/>
+    <exclude name="**/?*.flex"/>
+    <exclude name="**/?*.kt"/>
+    <exclude name="**/?*.clj"/>
+    <exclude name="**/?*.aj"/>
+  </patternset>
+  
+  <!-- JDK definitions -->
+  
+  <property name="jdk.bin.1.8" value="${jdk.home.1.8}/bin"/>
+  <path id="jdk.classpath.1.8">
+    <fileset dir="${jdk.home.1.8}">
+      <include name="../../../../lib64/jvm/default/jre/lib/charsets.jar"/>
+      <include name="../../../../lib64/jvm/default/jre/lib/ext/cldrdata.jar"/>
+      <include name="../../../../lib64/jvm/default/jre/lib/ext/dnsns.jar"/>
+      <include name="../../../../lib64/jvm/default/jre/lib/ext/jaccess.jar"/>
+      <include name="../../../../lib64/jvm/default/jre/lib/ext/jfxrt.jar"/>
+      <include name="../../../../lib64/jvm/default/jre/lib/ext/localedata.jar"/>
+      <include name="../../../../lib64/jvm/default/jre/lib/ext/nashorn.jar"/>
+      <include name="../../../../lib64/jvm/default/jre/lib/ext/sunec.jar"/>
+      <include name="../../../../lib64/jvm/default/jre/lib/ext/sunjce_provider.jar"/>
+      <include name="../../../../lib64/jvm/default/jre/lib/ext/sunpkcs11.jar"/>
+      <include name="../../../../lib64/jvm/default/jre/lib/ext/zipfs.jar"/>
+      <include name="../../../../lib64/jvm/default/jre/lib/jce.jar"/>
+      <include name="../../../../lib64/jvm/default/jre/lib/jfxswt.jar"/>
+      <include name="../../../../lib64/jvm/default/jre/lib/jsse.jar"/>
+      <include name="../../../../lib64/jvm/default/jre/lib/management-agent.jar"/>
+      <include name="../../../../lib64/jvm/default/jre/lib/resources.jar"/>
+      <include name="../../../../lib64/jvm/default/jre/lib/rt.jar"/>
+    </fileset>
+  </path>
+  
+  <property name="project.jdk.home" value="${jdk.home.1.8}"/>
+  <property name="project.jdk.bin" value="${jdk.bin.1.8}"/>
+  <property name="project.jdk.classpath" value="jdk.classpath.1.8"/>
+  
+  
+  <!-- Project Libraries -->
+  
+  <path id="library.commons-io:commons-io:2.5.classpath">
+    <pathelement location="${path.variable.maven_repository}/commons-io/commons-io/2.5/commons-io-2.5.jar"/>
+  </path>
+  
+  <path id="library.org.jsoup:jsoup:1.9.2.classpath">
+    <pathelement location="${path.variable.maven_repository}/org/jsoup/jsoup/1.9.2/jsoup-1.9.2.jar"/>
+  </path>
+  <!-- Register Custom Compiler Taskdefs -->
+  <property name="javac2.home" value="${idea.home}/lib"/>
+  <path id="javac2.classpath">
+    <pathelement location="${javac2.home}/javac2.jar"/>
+    <pathelement location="${javac2.home}/jdom.jar"/>
+    <pathelement location="${javac2.home}/asm-all.jar"/>
+    <pathelement location="${javac2.home}/jgoodies-forms.jar"/>
+  </path>
+  <target name="register.custom.compilers">
+    <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="javac2.classpath"/>
+    <taskdef name="instrumentIdeaExtensions" classname="com.intellij.ant.InstrumentIdeaExtensions" classpathref="javac2.classpath"/>
+  </target>
+  
+  <!-- Modules -->
+  
+  
+  <!-- Module wallhaven-random-dl -->
+  
+  <dirname property="module.wallhaven-random-dl.basedir" file="${ant.file}"/>
+  
+  
+  <property name="module.jdk.home.wallhaven-random-dl" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.wallhaven-random-dl" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.wallhaven-random-dl" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.wallhaven-random-dl" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="wallhaven-random-dl.output.dir" value="${module.wallhaven-random-dl.basedir}/out/production/wallhaven-random-dl"/>
+  <property name="wallhaven-random-dl.testoutput.dir" value="${module.wallhaven-random-dl.basedir}/out/test/wallhaven-random-dl"/>
+  
+  <path id="wallhaven-random-dl.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="wallhaven-random-dl.module.production.classpath">
+    <path refid="${module.jdk.classpath.wallhaven-random-dl}"/>
+    <path refid="library.org.jsoup:jsoup:1.9.2.classpath"/>
+    <path refid="library.commons-io:commons-io:2.5.classpath"/>
+  </path>
+  
+  <path id="wallhaven-random-dl.runtime.production.module.classpath">
+    <pathelement location="${wallhaven-random-dl.output.dir}"/>
+    <path refid="library.org.jsoup:jsoup:1.9.2.classpath"/>
+    <path refid="library.commons-io:commons-io:2.5.classpath"/>
+  </path>
+  
+  <path id="wallhaven-random-dl.module.classpath">
+    <path refid="${module.jdk.classpath.wallhaven-random-dl}"/>
+    <pathelement location="${wallhaven-random-dl.output.dir}"/>
+    <path refid="library.org.jsoup:jsoup:1.9.2.classpath"/>
+    <path refid="library.commons-io:commons-io:2.5.classpath"/>
+  </path>
+  
+  <path id="wallhaven-random-dl.runtime.module.classpath">
+    <pathelement location="${wallhaven-random-dl.testoutput.dir}"/>
+    <pathelement location="${wallhaven-random-dl.output.dir}"/>
+    <path refid="library.org.jsoup:jsoup:1.9.2.classpath"/>
+    <path refid="library.commons-io:commons-io:2.5.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.wallhaven-random-dl">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.wallhaven-random-dl">
+    <patternset refid="excluded.from.module.wallhaven-random-dl"/>
+  </patternset>
+  
+  <path id="wallhaven-random-dl.module.sourcepath">
+    <dirset dir="${module.wallhaven-random-dl.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.wallhaven-random-dl" depends="compile.module.wallhaven-random-dl.production,compile.module.wallhaven-random-dl.tests" description="Compile module wallhaven-random-dl"/>
+  
+  <target name="compile.module.wallhaven-random-dl.production" depends="register.custom.compilers" description="Compile module wallhaven-random-dl; production classes">
+    <mkdir dir="${wallhaven-random-dl.output.dir}"/>
+    <javac2 destdir="${wallhaven-random-dl.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.wallhaven-random-dl}/javac">
+      <compilerarg line="${compiler.args.wallhaven-random-dl}"/>
+      <bootclasspath refid="wallhaven-random-dl.module.bootclasspath"/>
+      <classpath refid="wallhaven-random-dl.module.production.classpath"/>
+      <src refid="wallhaven-random-dl.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.wallhaven-random-dl"/>
+    </javac2>
+    
+    <copy todir="${wallhaven-random-dl.output.dir}">
+      <fileset dir="${module.wallhaven-random-dl.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.wallhaven-random-dl.tests" depends="register.custom.compilers,compile.module.wallhaven-random-dl.production" description="compile module wallhaven-random-dl; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.wallhaven-random-dl" description="cleanup module">
+    <delete dir="${wallhaven-random-dl.output.dir}"/>
+    <delete dir="${wallhaven-random-dl.testoutput.dir}"/>
+  </target>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.wallhaven-random-dl" description="cleanup all"/>
+  
+  <target name="build.modules" depends="init, clean, compile.module.wallhaven-random-dl" description="build all modules"/>
+  
+  <target name="all" depends="build.modules" description="build all"/>
+</project>
