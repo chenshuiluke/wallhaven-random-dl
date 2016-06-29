@@ -28,6 +28,7 @@ import org.apache.commons.io.FilenameUtils;
 import java.net.URLConnection;
 
 public class Main {
+    private static int numberOfRetriesForRandomlySelectingId = 0;
     private static boolean checkIfImageAlreadyDownloaded(int id){
         File random = new File("random");
         File[] contents = random.listFiles();
@@ -35,9 +36,11 @@ public class Main {
             String fileName = file.getName();
             fileName = FilenameUtils.removeExtension(fileName);
             if(Integer.valueOf(fileName) == id){
+                numberOfRetriesForRandomlySelectingId = 0;
                 return true;
             }
         }
+        numberOfRetriesForRandomlySelectingId++;
         return false;
     }
     private static ArrayList<Integer> getPictureIds(long number){
@@ -123,6 +126,10 @@ public class Main {
                 int random;
                 do{
                     random = ThreadLocalRandom.current().nextInt(1, max + 1);
+                    if(numberOfRetriesForRandomlySelectingId > max){
+                        System.out.println("All randomly generated image ids already exist in the random folder as images.");
+                        System.exit(1);
+                    }
                 }while(checkIfImageAlreadyDownloaded(random));
                 ids = new ArrayList<>();
                 ids.add(random);
