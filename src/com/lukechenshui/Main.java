@@ -24,10 +24,22 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import java.net.URLConnection;
 
 public class Main {
-
+    private static boolean checkIfImageAlreadyDownloaded(int id){
+        File random = new File("random");
+        File[] contents = random.listFiles();
+        for(File file : contents){
+            String fileName = file.getName();
+            fileName = FilenameUtils.removeExtension(fileName);
+            if(Integer.valueOf(fileName) == id){
+                return true;
+            }
+        }
+        return false;
+    }
     private static ArrayList<Integer> getPictureIds(long number){
         String baseURL = "https://alpha.wallhaven.cc/latest?page=";
         //System.out.println("Connecting...");
@@ -108,7 +120,10 @@ public class Main {
                 System.out.printf("%d / %d ", counter + 1, iterations);
                 ArrayList<Integer> ids = getPictureIds(1);
                 int max = ids.get(0);
-                int random = ThreadLocalRandom.current().nextInt(1, max + 1);
+                int random;
+                do{
+                    random = ThreadLocalRandom.current().nextInt(1, max + 1);
+                }while(checkIfImageAlreadyDownloaded(random));
                 ids = new ArrayList<>();
                 ids.add(random);
                 getPicturesFromIds(ids, "random");
