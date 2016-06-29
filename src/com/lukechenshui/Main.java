@@ -116,7 +116,7 @@ public class Main {
             System.out.println("Done! Files are in 'random'");
         }
         else{
-            System.out.println("wallhaven-random-dl <number_of_random_images");
+            System.out.println("wallhaven-random-dl <number_of_random_images>");
         }
 
     }

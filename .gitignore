@@ -34,7 +34,7 @@ random*
 
 # IntelliJ
 /out/
-
+!out/artifacts/wallhaven-random-dl/wallhaven-random-dl.jar
 # mpeltonen/sbt-idea plugin
 .idea_modules/
 
@@ -76,7 +76,7 @@ tags
 .mtj.tmp/
 
 # Package Files #
-*.jar
+!*.jar
 *.war
 *.ear
 
