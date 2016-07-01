@@ -93,6 +93,36 @@ public class Main {
         }
         return null;
     }
+    private static boolean isSFW(int id){
+        String URL = "https://alpha.wallhaven.cc/wallpaper/" + String.valueOf(id);
+        try{
+            Document page = Jsoup.connect(URL).
+                    timeout(0)
+                    .userAgent("Mozilla/5.0 (X11; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0")
+                    .get();
+            //For sketchy: Elements nsfwElements = page.select("label.sketchy");
+            Elements nsfwElements = page.select("label.sfw");
+            //System.out.println(page.html());
+            //System.out.println(nsfwElements.html());
+            /*
+            The following code makes sure the following is present:
+            <fieldset class="framed">
+                <input type="radio" checked>
+                <label class="purity sfw">SFW</label>
+            </fieldset>
+             */
+            for(Element nsfwElement : nsfwElements){
+                if(nsfwElement.parent().children().size() == 2){
+                    return true;
+                }
+            }
+            return false;
+        }
+        catch(IOException exc){
+            return false;
+        }
+
+    }
     public static void getPicturesFromIds(ArrayList ids, String path){
         for(int counter = 0; counter < ids.size(); counter++){
             System.out.printf("Downloading image :\t%s\n", ids.get(counter));
@@ -126,11 +156,13 @@ public class Main {
                 int random;
                 do{
                     random = ThreadLocalRandom.current().nextInt(1, max + 1);
+                    //random=209773;
+                    //System.out.println(random);
                     if(numberOfRetriesForRandomlySelectingId > max){
                         System.out.println("All randomly generated image ids already exist in the random folder as images.");
                         System.exit(1);
                     }
-                }while(checkIfImageAlreadyDownloaded(random));
+                }while(checkIfImageAlreadyDownloaded(random) || !isSFW(random));
                 ids = new ArrayList<>();
                 ids.add(random);
                 getPicturesFromIds(ids, "random");
